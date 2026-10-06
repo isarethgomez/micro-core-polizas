@@ -10,12 +10,16 @@ return new class extends Migration
      * Run the migrations.
      */
     public function up(): void
-    {
-        Schema::create('plans', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+{
+    Schema::create('plans', function (Blueprint $table) {
+        $table->id();
+        $table->string('nombre');
+        $table->decimal('suma_asegurada', 10, 2);
+        $table->decimal('costo_mensual', 10, 2);
+        $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.

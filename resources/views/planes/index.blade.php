@@ -41,16 +41,23 @@
                                 <td>${{ number_format($plan->suma_asegurada, 2) }}</td>
                                 <td>${{ number_format($plan->costo_mensual, 2) }}</td>
                                 <td>
-                                    <span class="badge {{ $plan->estatus === 'activo' ? 'bg-success' : 'bg-danger' }}">
+                                    <span class="badge {{ $plan->estatus === 'activo' ? 'bg-success' : 'bg-secondary' }}">
                                         {{ ucfirst($plan->estatus) }}
                                     </span>
                                 </td>
                                 <td class="text-end">
-                                    <a href="{{ route('planes.edit', $plan->id) }}" id="btn-editar-{{ $plan->id }}" class="btn btn-sm btn-warning">Editar</a>
-                                    <form action="{{ route('planes.destroy', $plan->id) }}" method="POST" class="d-inline" id="form-eliminar-{{ $plan->id }}">
+                                    <!-- Botón Editar unificado -->
+                                    <a href="{{ route('planes.edit', $plan) }}" id="btn-editar-{{ $plan->id }}" class="btn btn-warning btn-sm me-1">
+                                        Editar
+                                    </a>
+
+                                    <!-- Formulario Eliminar -->
+                                    <form action="{{ route('planes.destroy', $plan) }}" method="POST" class="d-inline">
                                         @csrf
                                         @method('DELETE')
-                                        <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('¿Deseas eliminar este plan?')">Eliminar</button>
+                                        <button type="submit" id="btn-eliminar-{{ $plan->id }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Deseas eliminar este plan?')">
+                                            Eliminar
+                                        </button>
                                     </form>
                                 </td>
                             </tr>

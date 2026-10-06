@@ -13,30 +13,31 @@
                 <h2 class="h5 mb-0">Editar Plan: {{ $plan->nombre }}</h2>
             </div>
             <div class="card-body">
-                <form action="{{ route('planes.update', $plan->id) }}" method="POST" id="formulario-editar-plan">
+                <!-- Aquí está la corrección: pasamos $plan en el route -->
+                <form action="{{ route('planes.update', $plan) }}" method="POST">
                     @csrf
                     @method('PUT')
 
                     <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre del Plan</label>
-                        <input type="text" name="nombre" id="nombre-plan" class="form-control" value="{{ $plan->nombre }}" required>
+                        <label for="nombre-plan" class="form-label">Nombre del Plan</label>
+                        <input type="text" name="nombre" id="nombre-plan" class="form-control" value="{{ old('nombre', $plan->nombre) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="suma_asegurada" class="form-label">Suma Asegurada ($)</label>
-                        <input type="number" step="0.01" name="suma_asegurada" id="suma-asegurada" class="form-control" value="{{ $plan->suma_asegurada }}" required>
+                        <label for="suma-asegurada" class="form-label">Suma Asegurada ($)</label>
+                        <input type="number" step="0.01" name="suma_asegurada" id="suma-asegurada" class="form-control" value="{{ old('suma_asegurada', $plan->suma_asegurada) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="costo_mensual" class="form-label">Costo Mensual ($)</label>
-                        <input type="number" step="0.01" name="costo_mensual" id="costo-mensual" class="form-control" value="{{ $plan->costo_mensual }}" required>
+                        <label for="costo-mensual" class="form-label">Costo Mensual ($)</label>
+                        <input type="number" step="0.01" name="costo_mensual" id="costo-mensual" class="form-control" value="{{ old('costo_mensual', $plan->costo_mensual) }}" required>
                     </div>
 
                     <div class="mb-3">
-                        <label for="estatus" class="form-label">Estatus</label>
+                        <label for="estatus-plan" class="form-label">Estatus</label>
                         <select name="estatus" id="estatus-plan" class="form-select" required>
-                            <option value="activo" {{ $plan->estatus === 'activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="inactivo" {{ $plan->estatus === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                            <option value="activo" {{ old('estatus', $plan->estatus) === 'activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="inactivo" {{ old('estatus', $plan->estatus) === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
                         </select>
                     </div>
 
