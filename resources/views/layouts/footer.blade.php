@@ -2,7 +2,7 @@
 
     <footer class="text-center text-muted py-4 mt-5 border-top bg-white">
         <div class="container">
-            <small>&copy; {{ date('Y') }} Sistema de Emisión de Pólizas. Todos los derechos reservados.</small>
+            <small>&copy; {{ date('Y') }} Sistema de Emisión de Pólizas. Todos los derechos reservados a isareth.</small>
         </div>
     </footer>
 
