@@ -1,75 +1,67 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo de Planes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div id="contenedor-principal" class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3">Gestión de Planes</h1>
-            <a href="{{ route('planes.create') }}" id="btn-crear-plan" class="btn btn-primary">Nuevo Plan</a>
+@extends('layouts.app')
+
+@section('content')
+<div id="contenedor-planes" class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 id="titulo-pagina">Gestión de Planes</h2>
+        <a href="{{ route('planes.create') }}" class="btn btn-primary btn-nuevo-plan" id="btn-crear-plan">
+            <i class="bi bi-plus-circle"></i> Nuevo Plan
+        </a>
+    </div>
+
+    @if(session('success'))
+        <div class="alert alert-success alert-dismissible fade show mensaje-exito" role="alert" id="alerta-exito">
+            {{ session('success') }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    @endif
 
-        @if (session('exito'))
-            <div id="alerta-exito" class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('exito') }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        @endif
-
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <table id="tabla-planes" class="table table-striped align-middle mb-0">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Suma Asegurada</th>
-                            <th>Costo Mensual</th>
-                            <th>Estatus</th>
-                            <th class="text-end">Acciones</th>
+    <div class="card shadow-sm tarjeta-tabla">
+        <div class="card-body">
+            <table class="table table-striped table-hover tabla-planes" id="tabla-lista-planes">
+                <thead class="table-dark encabezado-tabla">
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Nombre</th>
+                        <th scope="col">Suma Asegurada</th>
+                        <th scope="col">Costo Mensual</th>
+                        <th scope="col">Estatus</th>
+                        <th scope="col" class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($lista_planes as $plan_item)
+                        <tr class="fila-plan">
+                            <td>{{ $plan_item->id }}</td>
+                            <td>{{ $plan_item->nombre }}</td>
+                            <td>${{ number_format($plan_item->suma_asegurada, 2) }}</td>
+                            <td>${{ number_format($plan_item->costo_mensual, 2) }}</td>
+                            <td>
+                                <span class="badge {{ $plan_item->estatus === 'activo' ? 'bg-success' : 'bg-secondary' }} etiqueta-estatus">
+                                    {{ ucfirst($plan_item->estatus) }}
+                                </span>
+                            </td>
+                            <td class="text-center celda-acciones">
+                                <a href="{{ route('planes.edit', $plan_item->id) }}" class="btn btn-sm btn-warning btn-editar" id="btn-editar-{{ $plan_item->id }}">
+                                    Editar
+                                </a>
+                                <form action="{{ route('planes.destroy', $plan_item->id) }}" method="POST" class="d-inline formulario-eliminar" id="form-eliminar-{{ $plan_item->id }}">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-danger btn-eliminar" onclick="return confirm('¿Está seguro de eliminar este plan?')">
+                                        Eliminar
+                                    </button>
+                                </form>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($planes as $plan)
-                            <tr>
-                                <td>{{ $plan->id }}</td>
-                                <td>{{ $plan->nombre }}</td>
-                                <td>${{ number_format($plan->suma_asegurada, 2) }}</td>
-                                <td>${{ number_format($plan->costo_mensual, 2) }}</td>
-                                <td>
-                                    <span class="badge {{ $plan->estatus === 'activo' ? 'bg-success' : 'bg-secondary' }}">
-                                        {{ ucfirst($plan->estatus) }}
-                                    </span>
-                                </td>
-                                <td class="text-end">
-                                    <!-- Botón Editar unificado -->
-                                    <a href="{{ route('planes.edit', $plan) }}" id="btn-editar-{{ $plan->id }}" class="btn btn-warning btn-sm me-1">
-                                        Editar
-                                    </a>
-
-                                    <!-- Formulario Eliminar -->
-                                    <form action="{{ route('planes.destroy', $plan) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" id="btn-eliminar-{{ $plan->id }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Deseas eliminar este plan?')">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">No hay planes registrados.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr class="fila-vacia">
+                            <td colspan="6" class="text-center py-3">No hay planes registrados.</td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

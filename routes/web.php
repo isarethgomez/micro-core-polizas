@@ -1,12 +1,15 @@
 <?php
 
-use App\Http\Controllers\PlanController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TerceroController;
+use App\Http\Controllers\PlanController;
+use App\Http\Controllers\PolizaController;
 
 Route::get('/', function () {
-    return redirect()->route('planes.index');
+    return view('welcome');
 });
 
-Route::resource('planes', PlanController::class)->parameters([
-    'planes' => 'plan'
-]);
+
+Route::resource('terceros', TerceroController::class);
+Route::resource('planes', PlanController::class);
+Route::resource('polizas', PolizaController::class);

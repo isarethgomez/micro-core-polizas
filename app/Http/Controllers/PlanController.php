@@ -9,8 +9,8 @@ class PlanController extends Controller
 {
     public function index()
     {
-        $planes = Plan::all();
-        return view('planes.index', compact('planes'));
+        $lista_planes = Plan::latest()->get();
+        return view('planes.index', compact('lista_planes'));
     }
 
     public function create()
@@ -20,41 +20,45 @@ class PlanController extends Controller
 
     public function store(Request $request)
     {
-        $datosValidados = $request->validate([
+        $datos_validados = $request->validate([
             'nombre' => 'required|string|max:255',
             'suma_asegurada' => 'required|numeric|min:0',
             'costo_mensual' => 'required|numeric|min:0',
             'estatus' => 'required|in:activo,inactivo',
         ]);
 
-        Plan::create($datosValidados);
+        Plan::create($datos_validados);
 
-        return redirect()->route('planes.index')->with('exito', 'Plan creado exitosamente.');
+        return redirect()->route('planes.index')
+            ->with('success', 'Plan creado exitosamente.');
     }
 
-    public function edit(Plan $plan)
+    public function edit(Plan $plane)
     {
+        $plan = $plane;
         return view('planes.edit', compact('plan'));
     }
 
-    public function update(Request $request, Plan $plan)
+    public function update(Request $request, Plan $plane)
     {
-        $datosValidados = $request->validate([
+        $datos_validados = $request->validate([
             'nombre' => 'required|string|max:255',
             'suma_asegurada' => 'required|numeric|min:0',
             'costo_mensual' => 'required|numeric|min:0',
             'estatus' => 'required|in:activo,inactivo',
         ]);
 
-        $plan->update($datosValidados);
+        $plane->update($datos_validados);
 
-        return redirect()->route('planes.index')->with('exito', 'Plan actualizado exitosamente.');
+        return redirect()->route('planes.index')
+            ->with('success', 'Plan actualizado exitosamente.');
     }
 
-    public function destroy(Plan $plan)
+    public function destroy(Plan $plane)
     {
-        $plan->delete();
+        $plane->delete();
 
-        return redirect()->route('planes.index')->with('exito', 'Plan eliminado exitosamente.');
+        return redirect()->route('planes.index')
+            ->with('success', 'Plan eliminado exitosamente.');
     }
 }

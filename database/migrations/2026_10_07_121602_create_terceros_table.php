@@ -8,11 +8,14 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('planes', function (Blueprint $table) {
+        Schema::create('terceros', function (Blueprint $table) {
             $table->id();
+            $table->string('cedula')->unique();
             $table->string('nombre');
-            $table->decimal('suma_asegurada', 20, 2);
-            $table->decimal('costo_mensual', 20, 2);
+            $table->string('apellido');
+            $table->string('telefono');
+            $table->text('direccion');
+            $table->date('fecha_nacimiento');
             $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
             $table->timestamps();
         });
@@ -20,6 +23,6 @@ return new class extends Migration
 
     public function down(): void
     {
-        Schema::dropIfExists('planes');
+        Schema::dropIfExists('terceros');
     }
 };
