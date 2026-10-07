@@ -1,75 +1,64 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Módulo de Planes</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div id="contenedor-principal" class="container mt-5">
-        <div class="d-flex justify-content-between align-items-center mb-4">
-            <h1 class="h3">Gestión de Planes</h1>
-            <a href="{{ route('planes.create') }}" id="btn-crear-plan" class="btn btn-primary">Nuevo Plan</a>
-        </div>
+@extends('layouts.app')
 
-        @if (session('exito'))
-            <div id="alerta-exito" class="alert alert-success alert-dismissible fade show" role="alert">
-                {{ session('exito') }}
+@section('title', 'Listado de Planes')
+
+@section('content')
+<div class="card shadow-sm">
+    <div class="card-header bg-white d-flex justify-content-between align-items-center py-3">
+        <h1 class="h4 mb-0 fw-bold">Gestión de Planes</h1>
+        <a href="{{ route('planes.create') }}" class="btn btn-primary">
+            <i class="bi bi-plus-circle-fill"></i> Registrar Plan
+        </a>
+    </div>
+
+    <div class="card-body">
+        @if (session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle-fill me-2"></i> {{ session('success') }}
                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
             </div>
         @endif
 
-        <div class="card shadow-sm">
-            <div class="card-body">
-                <table id="tabla-planes" class="table table-striped align-middle mb-0">
-                    <thead class="table-dark">
+        <div class="table-responsive">
+            <table class="table table-hover align-middle">
+                <thead class="table-dark">
+                    <tr>
+                        <th>Nombre del Plan</th>
+                        <th>Monto Cobertura</th>
+                        <th>Prima</th>
+                        <th>Estatus</th>
+                        <th class="text-center">Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse ($planes as $plan)
                         <tr>
-                            <th>ID</th>
-                            <th>Nombre</th>
-                            <th>Suma Asegurada</th>
-                            <th>Costo Mensual</th>
-                            <th>Estatus</th>
-                            <th class="text-end">Acciones</th>
+                            <td><strong>{{ $plan->nombre }}</strong></td>
+                            <td>${{ number_format($plan->monto_cobertura, 2) }}</td>
+                            <td>${{ number_format($plan->prima, 2) }}</td>
+                            <td>
+                                @if ($plan->estatus === 'activo')
+                                    <span class="badge bg-success">Activo</span>
+                                @else
+                                    <span class="badge bg-danger">Inactivo</span>
+                                @endif
+                            </td>
+                            <td class="text-center">
+                                <a href="{{ route('planes.edit', $plan) }}" class="btn btn-sm btn-outline-warning">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a>
+                            </td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        @forelse ($planes as $plan)
-                            <tr>
-                                <td>{{ $plan->id }}</td>
-                                <td>{{ $plan->nombre }}</td>
-                                <td>${{ number_format($plan->suma_asegurada, 2) }}</td>
-                                <td>${{ number_format($plan->costo_mensual, 2) }}</td>
-                                <td>
-                                    <span class="badge {{ $plan->estatus === 'activo' ? 'bg-success' : 'bg-secondary' }}">
-                                        {{ ucfirst($plan->estatus) }}
-                                    </span>
-                                </td>
-                                <td class="text-end">
-                                    <!-- Botón Editar unificado -->
-                                    <a href="{{ route('planes.edit', $plan) }}" id="btn-editar-{{ $plan->id }}" class="btn btn-warning btn-sm me-1">
-                                        Editar
-                                    </a>
-
-                                    <!-- Formulario Eliminar -->
-                                    <form action="{{ route('planes.destroy', $plan) }}" method="POST" class="d-inline">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit" id="btn-eliminar-{{ $plan->id }}" class="btn btn-danger btn-sm" onclick="return confirm('¿Deseas eliminar este plan?')">
-                                            Eliminar
-                                        </button>
-                                    </form>
-                                </td>
-                            </tr>
-                        @empty
-                            <tr>
-                                <td colspan="6" class="text-center text-muted">No hay planes registrados.</td>
-                            </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
+                    @empty
+                        <tr>
+                            <td colspan="5" class="text-center py-4 text-muted">
+                                No hay planes registrados.
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

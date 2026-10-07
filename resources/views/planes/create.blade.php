@@ -1,50 +1,61 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div id="contenedor-formulario-crear" class="container mt-5" style="max-width: 600px;">
+@extends('layouts.app')
+
+@section('title', 'Registrar Plan')
+
+@section('content')
+<div class="row justify-content-center">
+    <div class="col-md-7">
         <div class="card shadow-sm">
             <div class="card-header bg-primary text-white">
-                <h2 class="h5 mb-0">Nuevo Plan</h2>
+                <h2 class="h5 mb-0">Registrar Nuevo Plan</h2>
             </div>
             <div class="card-body">
-                <form action="{{ route('planes.store') }}" method="POST" id="formulario-crear-plan">
+
+                @if ($errors->any())
+                    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                        <strong><i class="bi bi-exclamation-triangle"></i> Errores de validación:</strong>
+                        <ul class="mb-0 mt-2">
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                @endif
+
+                <form action="{{ route('planes.store') }}" method="POST">
                     @csrf
                     <div class="mb-3">
                         <label for="nombre" class="form-label">Nombre del Plan</label>
-                        <input type="text" name="nombre" id="nombre-plan" class="form-control" required>
+                        <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="suma_asegurada" class="form-label">Suma Asegurada ($)</label>
-                        <input type="number" step="0.01" name="suma_asegurada" id="suma-asegurada" class="form-control" required>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="costo_mensual" class="form-label">Costo Mensual ($)</label>
-                        <input type="number" step="0.01" name="costo_mensual" id="costo-mensual" class="form-control" required>
+                    <div class="row">
+                        <div class="col-md-6 mb-3">
+                            <label for="monto-cobertura" class="form-label">Monto de Cobertura ($)</label>
+                            <input type="number" step="0.01" name="monto-cobertura" id="monto-cobertura" class="form-control" value="{{ old('monto-cobertura') }}" required>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <label for="prima" class="form-label">Prima ($)</label>
+                            <input type="number" step="0.01" name="prima" id="prima" class="form-control" value="{{ old('prima') }}" required>
+                        </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="estatus" class="form-label">Estatus</label>
-                        <select name="estatus" id="estatus-plan" class="form-select" required>
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
+                        <select name="estatus" id="estatus" class="form-select" required>
+                            <option value="activo" {{ old('estatus') === 'activo' ? 'selected' : '' }}>Activo</option>
+                            <option value="inactivo" {{ old('estatus') === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
                         </select>
                     </div>
 
                     <div class="d-flex justify-content-between">
-                        <a href="{{ route('planes.index') }}" id="btn-cancelar" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" id="btn-guardar-plan" class="btn btn-success">Guardar Plan</button>
+                        <a href="{{ route('planes.index') }}" class="btn btn-secondary">Cancelar</a>
+                        <button type="submit" class="btn btn-primary">Guardar Plan</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

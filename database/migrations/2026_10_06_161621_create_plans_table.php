@@ -6,24 +6,19 @@ use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
 {
-    /**
-     * Run the migrations.
-     */
+    
     public function up(): void
 {
     Schema::create('plans', function (Blueprint $table) {
-        $table->id();
-        $table->string('nombre');
-        $table->decimal('suma_asegurada', 10, 2);
-        $table->decimal('costo_mensual', 10, 2);
-        $table->enum('estatus', ['activo', 'inactivo'])->default('activo');
-        $table->timestamps();
-    });
+    $table->id();
+    $table->string('nombre')->unique();
+    $table->decimal('monto_cobertura', 12, 2); // <--- Verificar este nombre
+    $table->decimal('prima', 12, 2);
+    $table->string('estatus')->default('activo');
+    $table->timestamps();
+});
 }
 
-    /**
-     * Reverse the migrations.
-     */
     public function down(): void
     {
         Schema::dropIfExists('plans');

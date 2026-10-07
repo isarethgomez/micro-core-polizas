@@ -11,11 +11,10 @@ class Plan extends Model
 
     protected $table = 'plans';
 
-   
     protected $fillable = [
         'nombre',
-        'suma_asegurada',
-        'costo_mensual',
+        'monto_cobertura',
+        'prima',
         'estatus',
     ];
 }
