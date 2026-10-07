@@ -13,8 +13,8 @@ class Plan extends Model
 
     protected $fillable = [
         'nombre',
-        'monto_cobertura',
-        'prima',
+        'suma_asegurada',
+        'costo_mensual',
         'estatus',
     ];
 }

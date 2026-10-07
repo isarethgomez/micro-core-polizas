@@ -13,7 +13,7 @@
 
                 @if ($errors->any())
                     <div class="alert alert-danger alert-dismissible fade show" role="alert">
-                        <strong><i class="bi bi-exclamation-triangle"></i> ¡Atención! Ocurrieron errores de validación:</strong>
+                        <strong><i class="bi bi-exclamation-triangle"></i> Errores de validación:</strong>
                         <ul class="mb-0 mt-2">
                             @foreach ($errors->all() as $error)
                                 <li>{{ $error }}</li>
@@ -26,30 +26,24 @@
                 <form action="{{ route('terceros.store') }}" method="POST">
                     @csrf
                     <div class="row">
-                        <div class="col-md-4 mb-3">
-                            <label for="tipo-documento" class="form-label">Tipo Doc.</label>
-                            <select name="tipo-documento" id="tipo-documento" class="form-select" required>
-                                <option value="V" {{ old('tipo-documento') === 'V' ? 'selected' : '' }}>V - Venezolano</option>
-                                <option value="E" {{ old('tipo-documento') === 'E' ? 'selected' : '' }}>E - Extranjero</option>
-                                <option value="J" {{ old('tipo-documento') === 'J' ? 'selected' : '' }}>J - Jurídico</option>
-                                <option value="G" {{ old('tipo-documento') === 'G' ? 'selected' : '' }}>G - Gubernamental</option>
-                                <option value="P" {{ old('tipo-documento') === 'P' ? 'selected' : '' }}>P - Pasaporte</option>
-                            </select>
+                        <div class="col-md-6 mb-3">
+                            <label for="cedula" class="form-label">Cédula de Identidad</label>
+                            <input type="text" name="cedula" id="cedula" class="form-control" value="{{ old('cedula') }}" required>
                         </div>
-                        <div class="col-md-8 mb-3">
-                            <label for="numero-documento" class="form-label">Número de Documento</label>
-                            <input type="text" name="numero-documento" id="numero-documento" class="form-control" value="{{ old('numero-documento') }}" required>
+                        <div class="col-md-6 mb-3">
+                            <label for="fecha-nacimiento" class="form-label">Fecha de Nacimiento</label>
+                            <input type="date" name="fecha-nacimiento" id="fecha-nacimiento" class="form-control" value="{{ old('fecha-nacimiento') }}" required>
                         </div>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6 mb-3">
-                            <label for="nombres" class="form-label">Nombres</label>
-                            <input type="text" name="nombres" id="nombres" class="form-control" value="{{ old('nombres') }}" required>
+                            <label for="nombre" class="form-label">Nombre</label>
+                            <input type="text" name="nombre" id="nombre" class="form-control" value="{{ old('nombre') }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="apellidos" class="form-label">Apellidos</label>
-                            <input type="text" name="apellidos" id="apellidos" class="form-control" value="{{ old('apellidos') }}" required>
+                            <label for="apellido" class="form-label">Apellido</label>
+                            <input type="text" name="apellido" id="apellido" class="form-control" value="{{ old('apellido') }}" required>
                         </div>
                     </div>
 
@@ -59,22 +53,17 @@
                             <input type="text" name="telefono" id="telefono" class="form-control" value="{{ old('telefono') }}" required>
                         </div>
                         <div class="col-md-6 mb-3">
-                            <label for="email" class="form-label">Correo Electrónico</label>
-                            <input type="email" name="email" id="email" class="form-control" value="{{ old('email') }}" required>
+                            <label for="estatus" class="form-label">Estatus</label>
+                            <select name="estatus" id="estatus" class="form-select" required>
+                                <option value="activo" {{ old('estatus') === 'activo' ? 'selected' : '' }}>Activo</option>
+                                <option value="inactivo" {{ old('estatus') === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
                         </div>
                     </div>
 
                     <div class="mb-3">
                         <label for="direccion" class="form-label">Dirección</label>
-                        <textarea name="direccion" id="direccion" class="form-control" rows="2">{{ old('direccion') }}</textarea>
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="estatus" class="form-label">Estatus</label>
-                        <select name="estatus" id="estatus" class="form-select" required>
-                            <option value="activo" {{ old('estatus') === 'activo' ? 'selected' : '' }}>Activo</option>
-                            <option value="inactivo" {{ old('estatus') === 'inactivo' ? 'selected' : '' }}>Inactivo</option>
-                        </select>
+                        <textarea name="direccion" id="direccion" class="form-control" rows="3" required>{{ old('direccion') }}</textarea>
                     </div>
 
                     <div class="d-flex justify-content-between">

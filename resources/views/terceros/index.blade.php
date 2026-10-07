@@ -23,10 +23,10 @@
             <table class="table table-hover align-middle">
                 <thead class="table-dark">
                     <tr>
-                        <th>Documento</th>
+                        <th>Cédula</th>
                         <th>Nombre Completo</th>
                         <th>Teléfono</th>
-                        <th>Correo Electrónico</th>
+                        <th>Fecha Nac.</th>
                         <th>Estatus</th>
                         <th class="text-center">Acciones</th>
                     </tr>
@@ -34,13 +34,10 @@
                 <tbody>
                     @forelse ($terceros as $tercero)
                         <tr>
-                            <td>
-                                <span class="badge bg-secondary me-1">{{ $tercero->tipo_documento }}</span>
-                                {{ $tercero->numero_documento }}
-                            </td>
-                            <td>{{ $tercero->nombres }} {{ $tercero->apellidos }}</td>
+                            <td><strong>{{ $tercero->cedula }}</strong></td>
+                            <td>{{ $tercero->nombre }} {{ $tercero->apellido }}</td>
                             <td>{{ $tercero->telefono }}</td>
-                            <td>{{ $tercero->email }}</td>
+                            <td>{{ \Carbon\Carbon::parse($tercero->fecha_nacimiento)->format('d/m/Y') }}</td>
                             <td>
                                 @if ($tercero->estatus === 'activo')
                                     <span class="badge bg-success">Activo</span>
@@ -49,9 +46,17 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('terceros.edit', $tercero) }}" class="btn btn-sm btn-outline-warning">
+                                <a href="{{ route('terceros.edit', $tercero) }}" class="btn btn-sm btn-outline-warning me-1">
                                     <i class="bi bi-pencil-square"></i> Editar
                                 </a>
+
+                                <form action="{{ route('terceros.destroy', $tercero) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este tercero?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty

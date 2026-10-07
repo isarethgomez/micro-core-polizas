@@ -8,12 +8,10 @@ Route::get('/', function () {
     return redirect()->route('planes.index');
 });
 
-
 Route::resource('planes', PlanController::class)->parameters([
     'planes' => 'plan'
 ]);
 
-
-Route::resource('terceros', TerceroController::class)->except(['destroy'])->parameters([
+Route::resource('terceros', TerceroController::class)->parameters([
     'terceros' => 'tercero'
 ]);

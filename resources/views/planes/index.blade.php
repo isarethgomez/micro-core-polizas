@@ -24,8 +24,8 @@
                 <thead class="table-dark">
                     <tr>
                         <th>Nombre del Plan</th>
-                        <th>Monto Cobertura</th>
-                        <th>Prima</th>
+                        <th>Suma Asegurada</th>
+                        <th>Costo Mensual</th>
                         <th>Estatus</th>
                         <th class="text-center">Acciones</th>
                     </tr>
@@ -34,8 +34,8 @@
                     @forelse ($planes as $plan)
                         <tr>
                             <td><strong>{{ $plan->nombre }}</strong></td>
-                            <td>${{ number_format($plan->monto_cobertura, 2) }}</td>
-                            <td>${{ number_format($plan->prima, 2) }}</td>
+                            <td>${{ number_format($plan->suma_asegurada, 2) }}</td>
+                            <td>${{ number_format($plan->costo_mensual, 2) }}</td>
                             <td>
                                 @if ($plan->estatus === 'activo')
                                     <span class="badge bg-success">Activo</span>
@@ -44,9 +44,17 @@
                                 @endif
                             </td>
                             <td class="text-center">
-                                <a href="{{ route('planes.edit', $plan) }}" class="btn btn-sm btn-outline-warning">
+                                <a href="{{ route('planes.edit', $plan) }}" class="btn btn-sm btn-outline-warning me-1">
                                     <i class="bi bi-pencil-square"></i> Editar
                                 </a>
+
+                                <form action="{{ route('planes.destroy', $plan) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Estás seguro de eliminar este plan?');">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button type="submit" class="btn btn-sm btn-outline-danger">
+                                        <i class="bi bi-trash"></i> Eliminar
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @empty

@@ -22,20 +22,17 @@ class PlanController extends Controller
     public function store(Request $request)
     {
         $datos_validados = $request->validate([
-            'nombre'          => 'required|string|max:255|unique:plans,nombre',
-            'monto-cobertura' => 'required|numeric|min:0',
-            'prima'           => 'required|numeric|min:0',
-            'estatus'         => 'required|in:activo,inactivo',
-        ], [
-            'nombre.unique' => 'Ya existe un plan registrado con este nombre.',
+            'nombre'         => 'required|string|max:255|unique:plans,nombre',
+            'suma-asegurada' => 'required|numeric|min:0',
+            'costo-mensual'  => 'required|numeric|min:0',
+            'estatus'        => 'required|in:activo,inactivo',
         ]);
 
-       
         Plan::create([
-            'nombre'          => $datos_validados['nombre'],
-            'monto_cobertura' => $datos_validados['monto-cobertura'],
-            'prima'           => $datos_validados['prima'],
-            'estatus'         => $datos_validados['estatus'],
+            'nombre'         => $datos_validados['nombre'],
+            'suma_asegurada' => $datos_validados['suma-asegurada'],
+            'costo_mensual'  => $datos_validados['costo-mensual'],
+            'estatus'        => $datos_validados['estatus'],
         ]);
 
         return redirect()->route('planes.index')->with('success', 'Plan creado exitosamente.');
@@ -47,29 +44,32 @@ class PlanController extends Controller
     }
 
     public function update(Request $request, Plan $plan)
-{
-    $datos_validados = $request->validate([
-        'nombre' => [
-            'required',
-            'string',
-            'max:255',
-            Rule::unique('plans', 'nombre')->ignore($plan->id),
-        ],
-        'monto-cobertura' => 'required|numeric|min:0',
-        'prima'           => 'required|numeric|min:0',
-        'estatus'         => 'required|in:activo,inactivo',
-    ], [
-        'nombre.unique' => 'Ya existe otro plan registrado con este nombre.',
-    ]);
+    {
+        $datos_validados = $request->validate([
+            'nombre'         => [
+                'required',
+                'string',
+                'max:255',
+                Rule::unique('plans', 'nombre')->ignore($plan->id),
+            ],
+            'suma-asegurada' => 'required|numeric|min:0',
+            'costo-mensual'  => 'required|numeric|min:0',
+            'estatus'        => 'required|in:activo,inactivo',
+        ]);
 
-    // Mapeo explicito de kebab-case (HTML) a snake_case (Base de Datos)
-    $plan->update([
-        'nombre'          => $datos_validados['nombre'],
-        'monto_cobertura' => $datos_validados['monto-cobertura'],
-        'prima'           => $datos_validados['prima'],
-        'estatus'         => $datos_validados['estatus'],
-    ]);
+        $plan->update([
+            'nombre'         => $datos_validados['nombre'],
+            'suma_asegurada' => $datos_validados['suma-asegurada'],
+            'costo_mensual'  => $datos_validados['costo-mensual'],
+            'estatus'        => $datos_validados['estatus'],
+        ]);
 
-    return redirect()->route('planes.index')->with('success', 'Plan actualizado exitosamente.');
-}
+        return redirect()->route('planes.index')->with('success', 'Plan actualizado exitosamente.');
+    }
+
+    public function destroy(Plan $plan)
+    {
+        $plan->delete();
+        return redirect()->route('planes.index')->with('success', 'Plan eliminado exitosamente.');
+    }
 }
