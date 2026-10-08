@@ -32,7 +32,7 @@
         </div>
     </nav>
 
-    <!-- Contenido Principal -->
+    
     <div class="container py-5" id="contenedor-bienvenida">
         <div class="text-center mb-5">
             <h1 class="display-4 fw-bold text-primary mb-3">Bienvenido al Micro-Core de Emisión de Pólizas</h1>
@@ -41,15 +41,15 @@
             </p>
         </div>
 
-        <!-- Tarjetas / Botones de Módulos -->
+      
         <div class="row g-4 justify-content-center">
             
-            <!-- Módulo Planes -->
+           
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-0" id="tarjeta-planes">
                     <div class="card-body text-center p-4">
                         <div class="mb-3">
-                            <span class="fs-1 text-primary">📋</span>
+                        
                         </div>
                         <h3 class="card-title h4 mb-3">Gestión de Planes</h3>
                         <p class="card-text text-muted mb-4">
@@ -62,12 +62,11 @@
                 </div>
             </div>
 
-            <!-- Módulo Terceros -->
+          
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-0" id="tarjeta-terceros">
                     <div class="card-body text-center p-4">
                         <div class="mb-3">
-                            <span class="fs-1 text-success">👥</span>
                         </div>
                         <h3 class="card-title h4 mb-3">Gestión de Terceros</h3>
                         <p class="card-text text-muted mb-4">
@@ -80,12 +79,11 @@
                 </div>
             </div>
 
-            <!-- Módulo Pólizas -->
             <div class="col-md-4">
                 <div class="card h-100 shadow-sm border-0" id="tarjeta-polizas">
                     <div class="card-body text-center p-4">
                         <div class="mb-3">
-                            <span class="fs-1 text-warning">🎟️</span>
+                            
                         </div>
                         <h3 class="card-title h4 mb-3">Emisión de Pólizas</h3>
                         <p class="card-text text-muted mb-4">

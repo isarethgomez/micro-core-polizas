@@ -5,10 +5,7 @@ use App\Http\Controllers\TerceroController;
 use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolizaController;
 
-Route::get('/', function () {
-    return view('index');
-});
-
+route::view('/','home.index')->name('home');
 
 Route::resource('terceros', TerceroController::class);
 Route::resource('planes', PlanController::class);
