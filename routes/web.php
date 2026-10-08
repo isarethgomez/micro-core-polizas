@@ -6,7 +6,7 @@ use App\Http\Controllers\PlanController;
 use App\Http\Controllers\PolizaController;
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('index');
 });
 
 
