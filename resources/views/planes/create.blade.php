@@ -1,50 +1,60 @@
-<!DOCTYPE html>
-<html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Crear Plan</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-</head>
-<body class="bg-light">
-    <div id="contenedor-formulario-crear" class="container mt-5" style="max-width: 600px;">
-        <div class="card shadow-sm">
-            <div class="card-header bg-primary text-white">
-                <h2 class="h5 mb-0">Nuevo Plan</h2>
-            </div>
-            <div class="card-body">
-                <form action="{{ route('planes.store') }}" method="POST" id="formulario-crear-plan">
-                    @csrf
-                    <div class="mb-3">
-                        <label for="nombre" class="form-label">Nombre del Plan</label>
-                        <input type="text" name="nombre" id="nombre-plan" class="form-control" required>
-                    </div>
+@extends('layouts.app')
 
-                    <div class="mb-3">
-                        <label for="suma_asegurada" class="form-label">Suma Asegurada ($)</label>
-                        <input type="number" step="0.01" name="suma_asegurada" id="suma-asegurada" class="form-control" required>
-                    </div>
+@section('content')
+<div id="contenedor-crear-plan" class="container mt-4">
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="card shadow-sm tarjeta-formulario">
+                <div class="card-header bg-primary text-white encabezado-tarjeta">
+                    <h4 class="mb-0" id="titulo-formulario">Crear Nuevo Plan</h4>
+                </div>
+                <div class="card-body cuerpo-tarjeta">
+                    <form action="{{ route('planes.store') }}" method="POST" id="formulario-plan" class="form-plan">
+                        @csrf
 
-                    <div class="mb-3">
-                        <label for="costo_mensual" class="form-label">Costo Mensual ($)</label>
-                        <input type="number" step="0.01" name="costo_mensual" id="costo-mensual" class="form-control" required>
-                    </div>
+                        <div class="mb-3 grupo-input" id="grupo-nombre">
+                            <label for="nombre-plan" class="form-label etiqueta-input">Nombre del Plan</label>
+                            <input type="text" class="form-control campo-input @error('nombre') is-invalid @enderror" id="nombre-plan" name="nombre" value="{{ old('nombre') }}" required>
+                            @error('nombre')
+                                <div class="invalid-feedback error-validacion">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="mb-3">
-                        <label for="estatus" class="form-label">Estatus</label>
-                        <select name="estatus" id="estatus-plan" class="form-select" required>
-                            <option value="activo">Activo</option>
-                            <option value="inactivo">Inactivo</option>
-                        </select>
-                    </div>
+                        <div class="mb-3 grupo-input" id="grupo-suma-asegurada">
+                            <label for="suma-asegurada" class="form-label etiqueta-input">Suma Asegurada ($)</label>
+                            <input type="number" step="0.01" class="form-control campo-input @error('suma_asegurada') is-invalid @enderror" id="suma-asegurada" name="suma_asegurada" value="{{ old('suma_asegurada') }}" required>
+                            @error('suma_asegurada')
+                                <div class="invalid-feedback error-validacion">{{ $message }}</div>
+                            @enderror
+                        </div>
 
-                    <div class="d-flex justify-content-between">
-                        <a href="{{ route('planes.index') }}" id="btn-cancelar" class="btn btn-secondary">Cancelar</a>
-                        <button type="submit" id="btn-guardar-plan" class="btn btn-success">Guardar Plan</button>
-                    </div>
-                </form>
+                        <div class="mb-3 grupo-input" id="grupo-costo-mensual">
+                            <label for="costo-mensual" class="form-label etiqueta-input">Costo Mensual ($)</label>
+                            <input type="number" step="0.01" class="form-control campo-input @error('costo_mensual') is-invalid @enderror" id="costo-mensual" name="costo_mensual" value="{{ old('costo_mensual') }}" required>
+                            @error('costo_mensual')
+                                <div class="invalid-feedback error-validacion">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="mb-3 grupo-input" id="grupo-estatus">
+                            <label for="estatus-plan" class="form-label etiqueta-input">Estatus</label>
+                            <select class="form-select campo-select @error('estatus') is-invalid @enderror" id="estatus-plan" name="estatus" required>
+                                <option value="activo" {{ old('estatus') == 'activo' ? 'selected' : '' }}>Activo</option>
+                                <option value="inactivo" {{ old('estatus') == 'inactivo' ? 'selected' : '' }}>Inactivo</option>
+                            </select>
+                            @error('estatus')
+                                <div class="invalid-feedback error-validacion">{{ $message }}</div>
+                            @enderror
+                        </div>
+
+                        <div class="d-flex justify-content-end gap-2 grupo-botones">
+                            <a href="{{ route('planes.index') }}" class="btn btn-secondary btn-cancelar" id="btn-cancelar-plan">Cancelar</a>
+                            <button type="submit" class="btn btn-success btn-guardar" id="btn-guardar-plan">Guardar Plan</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</body>
-</html>
+</div>
+@endsection

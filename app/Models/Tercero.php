@@ -5,16 +5,19 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Plan extends Model
+class Tercero extends Model
 {
     use HasFactory;
 
-    protected $table = 'planes';
+    protected $table = 'terceros';
 
     protected $fillable = [
+        'cedula',
         'nombre',
-        'suma_asegurada',
-        'costo_mensual',
+        'apellido',
+        'telefono',
+        'direccion',
+        'fecha_nacimiento',
         'estatus',
     ];
 
